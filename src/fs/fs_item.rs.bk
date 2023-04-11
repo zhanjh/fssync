@@ -1,0 +1,7 @@
+use super::FsFile;
+
+#[derive(Debug, Clone)]
+pub enum FsItem {
+  FsPaths(Vec<String>),
+  File(FsFile),
+}

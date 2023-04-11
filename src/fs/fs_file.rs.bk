@@ -1,0 +1,33 @@
+use anyhow::{anyhow, Result};
+use serde::{Deserialize, Serialize};
+
+use super::FsMeta;
+
+// #[derive(Clone, Debug, Serialize, Deserialize)]
+// pub enum FsContent {
+//   Path(String),
+//   Bytes(Vec<u8>),
+// }
+
+// type FsContent = Vec<u8>;
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct FsFile {
+  // pub md5: [u8; 16],
+  pub meta: FsMeta,
+  pub content: Vec<u8>, //FsContent,
+}
+
+impl FsFile {
+  pub fn checksum(&self) -> Result<()> {
+    // if let FsContent::Bytes(bytes) = &self.content {
+    //   if md5::compute(bytes) == md5::Digest(self.meta.md5) {
+    //     return Ok(());
+    //   }
+    // }
+    if md5::compute(self.content).0 == self.meta.md5 {
+      return Ok(());
+    }
+    return Err(anyhow!("checksum failed"));
+  }
+}
